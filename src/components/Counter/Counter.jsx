@@ -20,16 +20,25 @@ export default function Counter() {
     }
   }, [count])
 
-  const increment = () => {
-    setCount((prevState) => prevState + 1)
+  const increment = (prevState) => {
+    dispatchEvent({
+      type: 'incremented',
+      count: prevState + 1,
+    })
   }
 
-  const decrement = () => {
-    setCount((prevState) => prevState - 1)
+  const decrement = (prevState) => {
+    dispatchEvent({
+      type: 'decremented',
+      count: prevState - 1,
+    })
   }
 
   const reset = () => {
-    setCount(0)
+    dispatchEvent({
+      type: 'reset',
+      count: 0,
+    })
   }
 
   return (
