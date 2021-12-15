@@ -19,6 +19,7 @@ function countReducer(count, action) {
     }
   }
 }
+
 export default function Counter() {
   const [count, dispatch] = useReducer(countReducer, intitalValue)
   const [currentColor, setCurrentColor] = useState(pinkRGB)
