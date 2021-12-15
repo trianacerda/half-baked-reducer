@@ -1,64 +1,49 @@
 import { useEffect, useState, useReducer } from 'react'
 
+const intitalValue = { currentCount: 0 }
 const pinkRGB = `rgb(236, 72, 153)`
 
-function countReducer(prevState, action) {
+function countReducer(count, action) {
   switch (action.type) {
     case 'incremented': {
-      return [
-        ...prevState,
-        {
-          count: prevState + 1,
-        },
-      ]
+      return { currentCount: count.currentCount + 1 }
     }
     case 'decremented': {
-      return [
-        ...prevState,
-        {
-          count: prevState - 1,
-        },
-      ]
+      return { currentCount: count.currentCount - 1 }
     }
     case 'reset': {
-      return [
-        ...prevState,
-        {
-          count: 0,
-        },
-      ]
+      return { currentCount: 0 }
     }
     default: {
       throw Error(`Uknown action: ${action.type}`)
     }
   }
 }
-
 export default function Counter() {
-  const [count, dispatch] = useReducer(countReducer, 0)
+  const [count, dispatch] = useReducer(countReducer, intitalValue)
   const [currentColor, setCurrentColor] = useState(pinkRGB)
 
   useEffect(() => {
-    if (count === 0) {
+    if (count.currentCount === 0) {
       setCurrentColor(pinkRGB)
     }
 
-    if (count > 0) {
+    if (count.currentCount > 0) {
       setCurrentColor(`rgb(52, 211, 153)`)
     }
 
-    if (count < 0) {
+    if (count.currentCount < 0) {
       setCurrentColor(`rgb(239, 68, 68)`)
     }
-  }, [count])
+  }, [count.currentCount])
 
-  const increment = (prevState) => {
+  const increment = () => {
     dispatch({
       type: 'incremented',
     })
   }
 
-  const decrement = (prevState) => {
+  const decrement = () => {
     dispatch({
       type: 'decremented',
     })
@@ -73,7 +58,7 @@ export default function Counter() {
   return (
     <main className="bg-black bg-opacity-90 min-h-screen flex flex-col items-center justify-center text-4xl text-pink-500">
       <h1 className="mb-5" style={{ color: currentColor }}>
-        {count}
+        {count.currentCount}
       </h1>
       <div className="flex w-1/2 justify-around">
         <button
